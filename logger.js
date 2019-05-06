@@ -11,10 +11,14 @@ class DataLogger {
         this.totalElapsed = 0;
     }
 
-    jsonify(obj) {
+    fillIn(obj) {
         var nobj = obj;
         nobj["sessionId"] = this.sessionId;
-        return JSON.stringify(nobj);
+        return nobj;
+    }
+
+    jsonify(obj) {
+        return JSON.stringify(this.fillIn(obj));
     }
     
     _log(obj) {
@@ -69,6 +73,8 @@ function InitFirebase() {
 
 class FirebaseLogger extends DataLogger {
     _log(obj) {
+        // Add sessionId
+        obj = this.fillIn(obj);
         // Add created_at field
         obj.created_at = new Date().toISOString();
         //console.log("FIREBASE: " + this.jsonify(obj));
