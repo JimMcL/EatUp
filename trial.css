@@ -58,7 +58,7 @@ a.play, a.consent { color: #e7fbeb }
 /* Main image, fit to screen */
 body#trial { background: black; color: #e0e0e0; }
 
-#trial .imgbox {width: 500px; margin-left: auto; margin-right: auto;  }
+#trial .imgbox {width: 500px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);  }
 .holder { width: 500px; height: 333px; }
 #trial img.sample {position: absolute; width: 500px; height: 333px; margin: auto;  
                  transition:opacity .5s ease-in, transform .5s ease-in; }
