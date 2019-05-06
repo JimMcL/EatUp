@@ -74,7 +74,7 @@ class FirebaseLogger extends DataLogger {
         //console.log("FIREBASE: " + this.jsonify(obj));
         firebase.database().ref('mimic-scores').push().set(obj)
             .then(function(snapshot) {
-                console.log('FIREBASE success: ' + snapshot);
+                //console.log('FIREBASE success: ' + snapshot);
                 //success(); // some success method
             }, function(error) {
                 console.log('FIRBASE error: ' + error);
