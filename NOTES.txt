@@ -1,0 +1,45 @@
+squiz site for static surrounds, onehelp ticket to get it. //mq.edu...
+or else http://web.science.mq.edu.au/~richard/ need science ID
+
+Maybe javascript for front end, send data to a logger eg https://io.adafruit.com/
+
+Static content could be git.io page, or google doc .js file, or MQ website
+
+Maybe store photos on github, (private repositories now free)
+
+AWS: https://hive.science.mq.edu.au/hpc
+
+
+Len hamey, computer vision, machine learning
+
+
+Questions
+
+How to motivate people to continue to the end? Easter eggs, ask an
+interesting question, then randomly reveal an answer somewhere along
+the way?
+Show some sort of progress, point system?
+How to motivate people to answer correctly? Perhaps feedback for some (obvious) images?
+Let them know in advance about leaderboard for top 10?
+
+
+=====================
+Data logging services
+
+Very crude conservative estimate of data requirements: .5KB per image score
+Hence, 350 trials @ 30 images/trial ~= 350 * 30 * .5 = 5.25MB
+
+---
+AdaFruit IO https://io.adafruit.com/
+Data limit is too low for us. Free service is limited to 30 data points/minute, paid is limited to 60/min. Other than that, it works well (although website is a bit buggy) and was the inital service used to implement this website, using basic REST API
+
+Splunk https://www.splunk.com/
+Too expensive, Splunk cloud costs $1012.50/month. I think I need to deploy the other Splunk versions, so not appropriate
+
+Sumo logic https://www.sumologic.com/pricing/apac/
+Doesn't seem to have an API for low cost versions, and it seems to
+only work on log files (not arbitrary data). I think free allows 500MB per day???
+
+I have looked at the MQTT protocol (and free brokers), but I don't think they provide data storage.
+
+Firebase???

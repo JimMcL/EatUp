@@ -1,0 +1,18 @@
+photos = [
+    { url: "images/85.jpg",
+      weight: 1,
+      req: false
+    },
+    { url: "images/606.jpg",
+      weight: 1,
+      req: false
+    },
+    { url: "images/736.jpg",
+      weight: 1,
+      req: false
+    },
+    { url: "images/2712.jpg",
+      weight: 1,
+      req: true
+    }
+]

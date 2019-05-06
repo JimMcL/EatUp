@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Eat up</title>
+    <link href="trial.css" rel="stylesheet">
+    <script src="logger.js"></script>
+    <script src="user.js"></script>
+    <script language="javascript">
+
+      function sendEmail(e) {
+          var emailAddress = document.getElementById("email").value;
+          if (emailAddress) {
+              // Get the data logger
+              var logger = GetLogger();
+              // Log the email address
+              logger.logUserEmail(emailAddress);
+              // Show thanks message
+              document.getElementById("thanks").style.display = "";
+          }
+          // Don't submit the form to a server
+          return false;
+      }
+
+      // Displays the uer's total time taken
+      function showTime(time) {
+          var elems = document.body.querySelectorAll(".showtime");
+          for (let elem of elems) {
+              elem.innerHTML = (time / 1000).toFixed(1);
+          }
+      }
+
+      // Displays the appropriate block depending on whether the user made any obvious mistakes
+      function showAppropriateResult(allGood) {
+          document.getElementById("good").style.display = allGood ? "block" : "none";
+          document.getElementById("bad").style.display = allGood ? "none" : "block";
+      }
+      
+      // ---- Startup function ----
+
+      window.onload = function(e){
+          document.getElementById("email").focus();
+          document.getElementById("emailForm").onsubmit = sendEmail;
+      }
+
+    </script>
+  </head>
+  <body id="finish">
+    <h1>Eat up</h1>
+
+    <p>
+      Thanks for participating!
+
+    <p class="result" id="good">
+      You finished in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done!
+    <p class="result" id="bad">
+      You finished in <span class="showtime">1000</span> seconds, however you made <span class="label">too many mistakes!</span>
+    Why don&apos;t you <a href="index.html" class="button">Try again?</a>
+
+    <p>If you would like to be notified of the outcome of this research, please leave your email address below.
+      If you choose to supply your email address, we will not use it for any other purpose, nor will we supply it to any third party.
+
+      <form id="emailForm">
+        Email: <input type="email" id="email">
+        <input id="submit" type="submit" value="Submit" class="button">
+      </form>
+
+      <p class="thanks" id="thanks" style="display:none">Thanks, We'll be in touch!
+
+    <p><a href="index.html" class="button">OK</a>
+    
+      <!-- ==================================================================== -->
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-app.js"></script>
+      <!-- <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script> -->
+      <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+      <script>
+        InitFirebase();
+      </script>
+      <!-- ==================================================================== -->
+
+  </body>
+  <script language="javascript">
+    showTime(getCookie("totalTime"));
+    showAppropriateResult(getCookie("totalWrong") == 0);
+  </script>
+</html>

@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>Eat up</title>
+    <link href="trial.css" rel="stylesheet">
+    <script src="photos.js"></script>
+    <script src="logger.js"></script>
+    <script src="user.js"></script>
+    <script src="trial.js"></script>
+    
+  </head>
+  <body id="trial">
+
+    <div class="imgbox" >
+      <div class="holder">
+        <img id="sample" class="sample" src="images/blank.jpg">
+      </div>
+
+      <div class="controlpanel">
+        <a id="ant" class="button" style="background-color:#297900"><span class="mnemonic">A</span>nt</a>
+        <div class="timer"><span id="time">0</span></div>
+        <a id="notAnt" class="button"><span class="mnemonic">N</span>ot ant</a>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    <script>
+      InitFirebase();
+    </script>
+    <!-- ==================================================================== -->
+    
+  </body>
+
+  <script>
+  </script>
+</html>
