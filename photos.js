@@ -1,5 +1,5 @@
 // Photo timeout in milliseconds
-photoTimeout = 3000;
+photoTimeout = 5000;
 // Number of photos to show
 numPhotos = 10;
 // List of photos
