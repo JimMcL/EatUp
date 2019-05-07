@@ -49,7 +49,7 @@ a.button:active{
 
 /* -------------- Front (and other) page --------------- */
 body#index, body#start, body#finish {background: #171810; color: #e7fbeb; font-size:120% }
-body#index, body#finish { max-width: 55em; margin: auto }
+body#index { max-width: 53em; margin: auto }
 a.play { display:inline-block; font-size: 150%; clear:left; padding: .5em; }
 a.consent { display:none; clear:left; padding: .8em; }
 a.play, a.consent { color: #e7fbeb }
@@ -89,4 +89,5 @@ body#trial { background: black; color: #e0e0e0; }
 
 /* -------------- Finish page --------------- */
 
+body#finish { max-width: 35em; margin: auto }
 .thanks { display: inline-block; margin: 1ex 1em; border: 1px solid #e7fbeb; border-radius:.5em; background: #ffff8820 }
