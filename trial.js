@@ -60,6 +60,8 @@ function LoadPhoto(url) {
         function photoDisplayed(e) {
             //img.removeEventListener("transitionend", photoDisplayed, false);
             enableButtons();
+            // New image is now displayed, get rid of the old one
+            removeElement(old);
         }
         // Another ugly thing - CSS animations are not run when the
         // tab is inactive, so use a timeout rather than transitionend
