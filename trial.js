@@ -155,7 +155,8 @@ function userScore(score) {
     var ie = document.getElementById("sample");
     ie.classList.add(score);
     function onTransEnd(e) {
-        removeElement(ie);
+        // Hide it, but don't remove it because it's a place holder for the next image
+        ie.style.display = "none";
         if (!morePhotos)
             trialFinished();
     }
