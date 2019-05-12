@@ -79,7 +79,51 @@ samplePhotos = [
     { url: "images/3015.jpg",
       weight: 1,
       known: null
-    }
+    },
+    { url: "images/1827.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/1828.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/1951.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/2462.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/2465.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/2806.jpg",
+      weight: 1,
+      known: null
+    },
+    { url: "images/2962.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/3171.jpg",
+      weight: 1,
+      known: null
+    },
+    { url: "images/3451.jpg",
+      weight: 1,
+      known: "notAnt"
+    },
+    { url: "images/3973.jpg",
+      weight: 1,
+      known: null
+    },
+    { url: "images/3976.jpg",
+      weight: 1,
+      known: null
+    },
 ];
 
 // --------------------------------------------------------------------------------
