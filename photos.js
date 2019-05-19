@@ -1,7 +1,7 @@
 // Photo timeout in milliseconds
 photoTimeout = 5000;
 // Number of photos to show
-numPhotos = 10;
+numPhotos = 15;
 // List of photos
 samplePhotos = [
     { url: "images/85.jpg",
