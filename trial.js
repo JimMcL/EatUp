@@ -3,11 +3,14 @@ var startTime = 0;
 var timeoutId = null;
 var timerId;
 var photos;
-var totalWrong = 0;
+var numBadMistakes = 0, totalScored = 0;
 var buttonsDisabled = false;
 // UGLY! Hardwire the animation duration so we can use setTimeout rather than transitionend events
 var animationDuration = 500;
 var iii = 0;
+
+// For debugging, allow escape behaviour to be turned off
+var allowEscape = true;
 
 // =======================
 // General functions
@@ -92,7 +95,8 @@ function StartTiming() {
 
     function timeoutFired() {
         timeoutId = null;
-        userScore("escape");
+        if (allowEscape)
+            userScore("escape");
     }
     timeoutId = setTimeout(timeoutFired, photoTimeout);
 }
@@ -108,7 +112,8 @@ function StopTiming() {
 // time in a cookie, and displays the finish page
 function trialFinished() {
     setCookie("totalTime", logger.totalElapsed);
-    setCookie("totalWrong", totalWrong);
+    setCookie("totalScored", totalScored);
+    setCookie("numBadMistakes", numBadMistakes);
     // Browse to the finish page
     window.location = "finish.html"; 
 }
@@ -148,9 +153,10 @@ function userScore(score) {
 
     nMilliSecs = StopTiming();
     logger.logImageScore(photos.url, score, nMilliSecs);
-    
+
+    totalScored++;
     // Did they get it blatantly wrong?
-    totalWrong += scorePlausible(score) ? 0 : 1;
+    numBadMistakes += scorePlausible(score) ? 0 : 1;
     
     // Move on to the next image
     var morePhotos = photos.moveToNext;
@@ -185,15 +191,16 @@ function handleKey(e) {
 }
 
 // ---- Startup function ----
-window.onload = function(e){
+
+function StartTrial(dryRun) {
     // Get the data logger
-    logger = GetLogger();
+    logger = GetLogger(dryRun);
     // Is this the user's first attempt?
     const noob = new URLSearchParams(window.location.search).get('noob');
     logger.logUserSession(noob == "T", window.screen.width, window.screen.height, window.devicePixelRatio, navigator.userAgent);
     
     // Setup the photos to be displayed, and show the first one
-    photos = new PhotoSeq(samplePhotos, numPhotos);
+    photos = new PhotoSeq(candidatePhotos, numPhotos);
     document.getElementById("sample").setAttribute("src", photos.url)
     // Setup click event handlers on buttons
     scoreBtns = document.querySelectorAll(".button");
