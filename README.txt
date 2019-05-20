@@ -9,3 +9,7 @@ https://jimmcl.github.io/EatUp
 
 # TODO
 Some sort of progress indicator?
+
+Show/email people their scores to motivate them? Just present overall
+  success/fail counts? If so, then we would need to somehow address
+  issues with learning
