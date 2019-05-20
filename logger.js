@@ -124,9 +124,16 @@ class AdaFruitLogger extends DataLogger {
 
 // === Logger of choice ====
 
-function GetLogger() {
-    // Returns the Firbase logger, initialised with the user's ID
-    return new FirebaseLogger(GetUserId());
+function GetLogger(dryRun) {
+    if (dryRun) {
+        // Return a console logger
+        return new DataLogger(GetUserId());
+    } else {
+        
+        // Return the Firebase logger, initialised with the user's ID
+        return new FirebaseLogger(GetUserId());
+    }
+    
     // // Returns the AdaFruit logger, initialised with the user's ID
     // return new AdaFruitLogger(GetUserId());
 }
