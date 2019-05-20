@@ -1,149 +1,28 @@
-// Photo timeout in milliseconds
-photoTimeout = 5000;
-// Number of photos to show
-numPhotos = 15;
-// List of photos
-samplePhotos = [
-    { url: "images/85.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/149.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/606.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/736.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/2712.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/3243.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/524.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/1773.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/4201.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/4512.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/4592.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/3857.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/3858.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/3859.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/1262.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/3849.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/487.jpg",
-      weight: 1,
-      known: "ant"
-    },
-    { url: "images/3014.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/3015.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/1827.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/1828.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/1951.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/2462.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/2465.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/2806.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/2962.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/3171.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/3451.jpg",
-      weight: 1,
-      known: "notAnt"
-    },
-    { url: "images/3973.jpg",
-      weight: 1,
-      known: null
-    },
-    { url: "images/3976.jpg",
-      weight: 1,
-      known: null
-    },
-];
-
-// --------------------------------------------------------------------------------
-
+// Depends on photo-list.js.
+// The PhotoSeq class represents a random sequence of photos which
+// make up a single trial, with a current photo.  Candidate photos are
+// defined in photo-list.js.
 class PhotoSeq {
     constructor(photos, numToShow) {
         this.index = 0;
         this.numToShow = numToShow;
         this.photos = this.selectRandom(photos, numToShow);
     }
-    
+
+    // Progresses the current photo to the next photo in the trial
     get moveToNext() {
         return ++this.index < this.numToShow;
     }
     get currentPhoto() { return this.photos[this.index]; }
     get hasCurrentPhoto() { return this.index < this.numToShow; }
 
+    // Returns the URL of the current photo
     get url() { return this.currentPhoto.url; }
+    // Returns the "known" type of the current photo, either "ant", "notAnt" or null
     get knownType() { return this.currentPhoto.known; }
 
+    // Used internally. Selects the photos to be used in the trial
+    // from the list of candidate photos
     selectRandom(photos, numToShow) {
         shuffleArray(photos);
         var result = [];
