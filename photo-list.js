@@ -127,5 +127,13 @@ candidatePhotos = [
       weight: 1,
       known: null
     },
+    { url: "images/784.jpg",
+      weight: 1,
+      known: null
+    },
+    { url: "images/786.jpg",
+      weight: 1,
+      known: null
+    },
 ];
 
