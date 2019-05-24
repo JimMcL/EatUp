@@ -8,8 +8,10 @@ Currently, this project is hosted on GitHub pages, where it can be accessed at
 https://jimmcl.github.io/EatUp
 
 # TODO
-Some sort of progress indicator?
+- Some sort of progress indicator.
+- Show/email people their scores to motivate them. Just present overall success/fail counts? If so, then we would need to somehow address issues with learning.
+- Inform people about "a" and "n" keypresses (Bruno Buzatto)
+- Record mouse travel distance - starting position of mouse might skew timing results (Bruno Buzatto)
 
-Show/email people their scores to motivate them? Just present overall
-  success/fail counts? If so, then we would need to somehow address
-  issues with learning
+# Changes
+- Made buttons bigger on phones (thanks to Matt Bulbert) - 20-May-2019
