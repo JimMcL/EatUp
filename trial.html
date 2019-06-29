@@ -6,7 +6,7 @@
     <script src="photos.js"></script>
     <script src="logger.js"></script>
     <script src="user.js"></script>
-    <script src="trial-class.js"></script>
+    <script src="trial.js"></script>
     <script src="mfb.js"></script>
     
   </head>
@@ -33,7 +33,7 @@
       function StartTrial() {
           // Get the data logger. This logger just writes to the console
           InitFirebase();
-          var logger = new FirebaseDataLogger(GetUserId());
+          var logger = new FirebaseLogger(GetUserId());
 
           // Is this the user's first attempt?
           const noob = GetUrlParam("noob") == "T";
