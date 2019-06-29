@@ -79,7 +79,7 @@ function LoadPhoto(url) {
 }
 
 function showTimeInSecs(secs) {
-    document.getElementById("time").innerHTML = Math.abs(photoTimeout / 1000 - secs).toFixed(1);
+    document.getElementById("time").innerHTML = Math.abs(escapeTimeout / 1000 - secs).toFixed(1);
 }
 
 // Starts the timer, and sets a timeout to score the current image as
@@ -98,7 +98,7 @@ function StartTiming() {
         if (allowEscape)
             userScore("escape");
     }
-    timeoutId = setTimeout(timeoutFired, photoTimeout);
+    timeoutId = setTimeout(timeoutFired, escapeTimeout);
 }
 
 // Stops the timer

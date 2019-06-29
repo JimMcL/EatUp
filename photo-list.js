@@ -1,5 +1,5 @@
 // Photo timeout (i.e. time until "escape") in milliseconds
-photoTimeout = 5000;
+escapeTimeout = 5000;
 // Number of photos to show in a single trial
 numPhotos = 15;
 // List of candidate photos. Each photo has a URL, a weight
