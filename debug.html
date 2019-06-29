@@ -6,7 +6,7 @@
     <script src="photos.js"></script>
     <script src="logger.js"></script>
     <script src="user.js"></script>
-    <script src="trial.js"></script>
+    <script src="trial-class.js"></script>
 
     <style>
       #watermark {
@@ -34,9 +34,9 @@
       </div>
 
       <div class="controlpanel">
-        <a id="ant" class="button" style="background-color:#297900"><span class="mnemonic">A</span>nt</a>
+        <a id="ant" class="button score" style="background-color:#297900"><span class="mnemonic">A</span>nt</a>
         <div class="timer"><span id="time">0</span></div>
-        <a id="notAnt" class="button"><span class="mnemonic">N</span>ot ant</a>
+        <a id="notAnt" class="button score"><span class="mnemonic">N</span>ot ant</a>
       </div>
     </div>
 
@@ -53,8 +53,9 @@
       InitFirebase();
 
       window.onload = function(e) {
-          StartTrial(true);
-          allowEscape = false;
+          // Get the data logger
+          var logger = new DataLogger(GetUserId());
+          StartTrial(logger, false);
       }
     </script>
     <!-- ==================================================================== -->
