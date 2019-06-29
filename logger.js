@@ -4,7 +4,7 @@
 // Generic data logging, logs to the console.
 // Derive a subclass and override _log to log to somewhere else
 
-class DataLogger {
+class ConsoleDataLogger {
     constructor(uid) {
         this.uid = uid;
         this.sessionId = uniqueID();
@@ -62,21 +62,7 @@ class DataLogger {
 // =======================
 // Google Firebase logging
 
-function InitFirebase() {
-    var firebaseConfig = {
-        apiKey: "AIzaSyCVBKG4upXrtDRSNMGcLzV-Wy5UwjLLtcE",
-        authDomain: "human-predators.firebaseapp.com",
-        databaseURL: "https://human-predators.firebaseio.com",
-        projectId: "human-predators",
-        storageBucket: "human-predators.appspot.com",
-        messagingSenderId: "179167711766",
-        appId: "1:179167711766:web:e01bc266965cfd4c"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-}
-
-class FirebaseLogger extends DataLogger {
+class FirebaseLogger extends ConsoleDataLogger {
     _log(obj) {
         // Add sessionId
         obj = this.fillIn(obj);
@@ -97,12 +83,12 @@ class FirebaseLogger extends DataLogger {
 // =======================
 // AdaFruit logging
 
-class AdaFruitLogger extends DataLogger {
+class AdaFruitLogger extends ConsoleDataLogger {
 
-    // AdaFruit parameters
-    get user() { return "FruitJim"; }
-    get feed() { return "mimics"; }
-    get ioKey() { return "2464cd35a78145bf8c61b212e2b70723"; }
+    // AdaFruit parameters - replace with real values
+    get user() { return "user"; }
+    get feed() { return "feed"; }
+    get ioKey() { return "jkskds jhkldjfh dfklj"; }
     
     _log(obj) {
         //console.log("ADAFRUIT: " + this.jsonify(obj));
@@ -126,19 +112,3 @@ class AdaFruitLogger extends DataLogger {
         http.send(params);
     }
 };
-
-// === Logger of choice ====
-
-function GetLogger(dryRun) {
-    if (dryRun) {
-        // Return a console logger
-        return new DataLogger(GetUserId());
-    } else {
-        
-        // Return the Firebase logger, initialised with the user's ID
-        return new FirebaseLogger(GetUserId());
-    }
-    
-    // // Returns the AdaFruit logger, initialised with the user's ID
-    // return new AdaFruitLogger(GetUserId());
-}

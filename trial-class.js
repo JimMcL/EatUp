@@ -1,6 +1,14 @@
+/* Trial logic HTML assumptions: 
+The img element:
+  id = "sample"
+  class = "sample"
+  While an image is loading, it temporarily has class "loading". 
+  When the image has been scored, the score name (e.g. "ant") is added to the class list.
 
-
-
+The score buttons:
+  class = "score"
+  id = score value (e.g. "ant")
+*/
 
 // =======================
 // General functions
@@ -17,26 +25,28 @@ function removeElement(element) {
         par.removeChild(element);
 }
 
-function getUrlParam(name) {
+function GetUrlParam(name) {
     return new URLSearchParams(window.location.search).get(name);
 }
 
 // =========================
+
 // A class which controls the logic of a trial
 class Trial {
     // Creates a new Trial instance.
     // @constructor
     // @param {Logger} logger
     // @param {PhotoSeq} photos the photo pool.
-    // @param {boolean} allowEscape true if animals escape after a timeout.
     // @param (string) photoEleId ID of the DOM IMG element that displays photos.
+    // @param {number} escapeTimeout Duration (milliseconds) before animals escape. If <= 0, animals don't escape.
     // @param {number} animationDuration the animation duration
-    // (milliseconds) so we can use setTimeout rather than
-    // transitionend events.
-    constructor(logger, photos, allowEscape, photoEleId, animationDuration) {
+    //                 (milliseconds) so we can use setTimeout rather than
+    //                 transitionend events.
+    constructor(logger, photos, photoEleId, escapeTimeout, animationDuration) {
         this.logger = logger;
         this.photos = photos;
-        this.allowEscape = allowEscape;
+        this.escapeTimeout = escapeTimeout;
+        this.allowEscape = escapeTimeout > 0;
         this.photoEleId = photoEleId;
         this.animationDuration = animationDuration;
         
@@ -48,10 +58,10 @@ class Trial {
         this.buttonsDisabled = false;
     }
 
-    // =======================
-    // Game functions
-
-    prepare() {
+    // Gets the game ready to run. Displays the first photo, sets up
+    // score button handlers and keyboard shortcuts, and starts the
+    // timer used to trigger escapes and record user decision times.
+    prepare(shortcutKeys) {
         // Display the first photo
         document.getElementById(this.photoEleId).setAttribute("src", this.photos.url);
 
@@ -66,10 +76,9 @@ class Trial {
         
         // Setup keyboard shortcut keys
         function handleKey(e) {
-            if (e.key == "a" || e.key == "A") {
-                self.userScore("ant");
-            } else if (e.key == "n" || e.key == "N") {
-                self.userScore("notAnt");
+            var score = shortcutKeys[e.key];
+            if (typeof(score) !== "undefined") {
+                self.userScore(score);
             }
         }
         document.addEventListener("keydown", handleKey);
@@ -77,6 +86,10 @@ class Trial {
         // Start the countdown timer
         this.startTiming();
     }
+
+
+    // =======================
+    // Game functions
 
     // "Disable" the "Ant" and "Non ant" buttons.
     // They aren't really disabled, but scoring doesn't function while they are disabled
@@ -92,7 +105,7 @@ class Trial {
 
     /** Loads a new photo. A new image element is created, its src
         attribute is set to the specified url, and its class is set to
-        "sample" and "loading". Once the image has been loaded, the
+        self.photoEleId and "loading". Once the image has been loaded, the
         element is added to the document, its ID set to "sample",
         "loading" is removed from its class, and the countdown timer is
         started. */
@@ -127,7 +140,7 @@ class Trial {
     }
 
     showTimeInSecs(secs) {
-        document.getElementById("time").innerHTML = Math.abs(photoTimeout / 1000 - secs).toFixed(1);
+        document.getElementById("time").innerHTML = Math.abs(this.escapeTimeout / 1000 - secs).toFixed(1);
     }
 
     // Starts the timer, and sets a timeout to score the current image as
@@ -147,7 +160,7 @@ class Trial {
             if (self.allowEscape)
                 self.userScore("escape");
         }
-        this.timeoutId = setTimeout(timeoutFired, photoTimeout);
+        this.timeoutId = setTimeout(timeoutFired, this.escapeTimeout);
     }
 
     // Stops the timer
@@ -229,23 +242,4 @@ class Trial {
         
         return true;
     }
-}
-
-// ---- Startup function ----
-
-// Assumes HTML where user score buttons have the class "score", and
-// the photo element has the id "sample".
-function StartTrial(logger, allowEscape) {
-
-    // Log the session.
-    // Is this the user's first attempt?
-    const noob = getUrlParam("noob") == "T";
-    logger.logUserSession(noob, window.screen.width, window.screen.height, window.devicePixelRatio, navigator.userAgent);
-    
-    // Setup the photos to be displayed, and show the first one
-    // candidatePhotos and numPhotos should have been defined in photo-list.js
-    var photos = new PhotoSeq(candidatePhotos, numPhotos);
-
-    // Staqrt the trial
-    new Trial(logger, photos, allowEscape, "sample", 500).prepare();
 }

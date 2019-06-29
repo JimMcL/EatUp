@@ -6,7 +6,8 @@
     <script src="photos.js"></script>
     <script src="logger.js"></script>
     <script src="user.js"></script>
-    <script src="trial.js"></script>
+    <script src="trial-class.js"></script>
+    <script src="mfb.js"></script>
     
   </head>
   <body id="trial">
@@ -17,9 +18,9 @@
       </div>
 
       <div class="controlpanel">
-        <a id="ant" class="score button" style="background-color:#297900"><span class="mnemonic">A</span>nt</a>
+        <a id="ant" class="button score" style="background-color:#297900"><span class="mnemonic">A</span>nt</a>
         <div class="timer"><span id="time">0</span></div>
-        <a id="notAnt" class="score button"><span class="mnemonic">N</span>ot ant</a>
+        <a id="notAnt" class="button score"><span class="mnemonic">N</span>ot ant</a>
       </div>
     </div>
 
@@ -29,11 +30,35 @@
     <!-- <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
     <script>
+      function StartTrial() {
+          // Get the data logger. This logger just writes to the console
+          var logger = new ConsoleDataLogger(GetUserId());
+
+          // Is this the user's first attempt?
+          const noob = GetUrlParam("noob") == "T";
+
+          // Log the session
+          logger.logUserSession(noob, window.screen.width, window.screen.height, window.devicePixelRatio, navigator.userAgent);
+          
+          // Setup the photos to be displayed.  candidatePhotos and
+          // numPhotos should have been defined in photo-list.js
+          var photos = new PhotoSeq(candidatePhotos, numPhotos);
+
+          // Allow user to press keys to select a button, a or A for an ant, n or N for not an ant
+          var shortcutKeys = {a: "ant", A: "ant", n: "notAnt", N: "notAnt"};
+
+          // Start the trial
+          new Trial(logger, photos, "sample", escapeTimeout, 500).prepare(shortcutKeys);
+      }
+
+      if (typeof candidatePhotos === typeof undefined) {
+          alert("Looks like there's a problem with photo-list.js.\nCheck the browser console for error messages.");
+      }
+      
       InitFirebase();
 
-      window.onload = function(e) {
-          StartTrial();
-      }
+      window.onload = StartTrial;
+
     </script>
     <!-- ==================================================================== -->
     
