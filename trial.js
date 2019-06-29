@@ -119,7 +119,7 @@ function trialFinished() {
 }
 
 // Returns true if the user's score seems to represent a reasonable choice.
-function scorePlausible(score) {
+function isScorePlausible(score) {
     var kt = photos.knownType;
     //if (!(kt == null || kt == score))
     //    console.log("ERROR: " + kt + " =? " + score + ", " + (kt == null || kt == score));
@@ -156,7 +156,7 @@ function userScore(score) {
 
     totalScored++;
     // Did they get it blatantly wrong?
-    numBadMistakes += scorePlausible(score) ? 0 : 1;
+    numBadMistakes += isScorePlausible(score) ? 0 : 1;
     
     // Move on to the next image
     var morePhotos = photos.moveToNext;
@@ -200,6 +200,7 @@ function StartTrial(dryRun) {
     logger.logUserSession(noob == "T", window.screen.width, window.screen.height, window.devicePixelRatio, navigator.userAgent);
     
     // Setup the photos to be displayed, and show the first one
+    // candidatePhotos and numPhotos should have been defined in photo-list.js
     photos = new PhotoSeq(candidatePhotos, numPhotos);
     document.getElementById("sample").setAttribute("src", photos.url)
     // Setup click event handlers on buttons
