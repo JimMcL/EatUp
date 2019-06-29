@@ -1,4 +1,5 @@
 // Depends on photo-list.js.
+
 // The PhotoSeq class represents a random sequence of photos which
 // make up a single trial, with a current photo.  Candidate photos are
 // defined in photo-list.js.
