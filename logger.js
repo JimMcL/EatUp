@@ -1,7 +1,8 @@
-// Data logging to AdaFruit IO
+// Data logging to the console or a remote database
 
 // =======================
-// Generic data logging
+// Generic data logging, logs to the console.
+// Derive a subclass and override _log to log to somewhere else
 
 class DataLogger {
     constructor(uid) {
@@ -11,21 +12,25 @@ class DataLogger {
         this.totalElapsed = 0;
     }
 
+    // Adds sessionId to obj
     fillIn(obj) {
         var nobj = obj;
         nobj["sessionId"] = this.sessionId;
         return nobj;
     }
 
+    // Adds sessionId to obj, then converts it to a JSON string and returns it
     jsonify(obj) {
         return JSON.stringify(this.fillIn(obj));
     }
-    
+
+    // Jsonifies obj then writes it to the output device.
+    // Subclasses may perform additional actions
     _log(obj) {
         console.log(this.jsonify(obj));
     }
 
-    // Save session info
+    // Saves session info
     logUserSession(noob, screenWidth, screenheight, devicePixelRatio, userAgent) {
         this._log({type: "session",
                    userId: this.uid,
@@ -36,7 +41,7 @@ class DataLogger {
                    userAgent: userAgent});
     }
     
-    // Save the user's classification of an image
+    // Saves the user's classification of an image
     logImageScore(imageUrl, score, time) {
         this.totalElapsed += time;
         this._log({type: "score",
@@ -46,7 +51,7 @@ class DataLogger {
                    time: time});
     }
 
-    // Save the user's email address because they have requested to be
+    // Saves the user's email address because they have requested to be
     // notified of the research outcomes
     logUserEmail(email) {
         this._log({type: "email",
@@ -55,7 +60,7 @@ class DataLogger {
 };
 
 // =======================
-// Firebase logging
+// Google Firebase logging
 
 function InitFirebase() {
     var firebaseConfig = {
@@ -83,7 +88,7 @@ class FirebaseLogger extends DataLogger {
                 //console.log('FIREBASE success: ' + snapshot);
                 //success(); // some success method
             }, function(error) {
-                console.log('FIRBASE error: ' + error);
+                console.log('FIREBASE error: ' + error);
                 //error(); // some error method
             });
     }
