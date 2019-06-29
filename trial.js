@@ -1,16 +1,14 @@
-var logger = null;
-var startTime = 0;
-var timeoutId = null;
-var timerId;
-var photos;
-var numBadMistakes = 0, totalScored = 0;
-var buttonsDisabled = false;
-// UGLY! Hardwire the animation duration so we can use setTimeout rather than transitionend events
-var animationDuration = 500;
-var iii = 0;
+/* Trial logic HTML assumptions: 
+The img element:
+  id = "sample"
+  class = "sample"
+  While an image is loading, it temporarily has class "loading". 
+  When the image has been scored, the score name (e.g. "ant") is added to the class list.
 
-// For debugging, allow escape behaviour to be turned off
-var allowEscape = true;
+The score buttons:
+  class = "score"
+  id = score value (e.g. "ant")
+*/
 
 // =======================
 // General functions
@@ -27,189 +25,221 @@ function removeElement(element) {
         par.removeChild(element);
 }
 
-// =======================
-// Game functions
-
-// "Disable" the "Ant" and "Non ant" buttons.
-// They aren't really disabled, but scoring doesn't function while they are disabled
-function disableButtons() {
-    //console.log("DISABLE");
-    buttonsDisabled = true;
+function GetUrlParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
 }
 
-// "Enable" the "Ant" and "Non ant" buttons.
-function enableButtons() {
-    //console.log("ENABLE " + iii++);
-    buttonsDisabled = false;
-}
+// =========================
 
-/** Loads a new photo. A new image element is created, its src
-    attribute is set to the specified url, and its class is set to
-    "sample" and "loading". Once the image has been loaded, the
-    element is added to the document, its ID set to "sample",
-    "loading" is removed from its class, and the countdown timer is
-    started. */
-function LoadPhoto(url) {
-    var img = new Image;
-    img.onload = function () {
-        var img = this;
-        var old = document.getElementById("sample");
-        // Clear ID on old element, and set it on the new element
-        old.id = null;
-        img.id = "sample"; 
-        insertAfter(this, old);
-        // Calling setTimeout is an ugly hack to get the display to animate. It can fail
-        setTimeout(function() {img.classList.remove("loading"); }, 100);
-        function photoDisplayed(e) {
-            //img.removeEventListener("transitionend", photoDisplayed, false);
-            enableButtons();
-            // New image is now displayed, get rid of the old one
-            removeElement(old);
+// A class which controls the logic of a trial
+class Trial {
+    // Creates a new Trial instance.
+    // @constructor
+    // @param {Logger} logger
+    // @param {PhotoSeq} photos the photo pool.
+    // @param (string) photoEleId ID of the DOM IMG element that displays photos.
+    // @param {number} escapeTimeout Duration (milliseconds) before animals escape. If <= 0, animals don't escape.
+    // @param {number} animationDuration the animation duration
+    //                 (milliseconds) so we can use setTimeout rather than
+    //                 transitionend events.
+    constructor(logger, photos, photoEleId, escapeTimeout, animationDuration) {
+        this.logger = logger;
+        this.photos = photos;
+        this.escapeTimeout = escapeTimeout;
+        this.allowEscape = escapeTimeout > 0;
+        this.photoEleId = photoEleId;
+        this.animationDuration = animationDuration;
+        
+        this.startTime = 0;
+        this.timeoutId = null;
+        this.timerId;
+        this.numBadMistakes = 0
+        this.totalScored = 0;
+        this.buttonsDisabled = false;
+    }
+
+    // Gets the game ready to run. Displays the first photo, sets up
+    // score button handlers and keyboard shortcuts, and starts the
+    // timer used to trigger escapes and record user decision times.
+    prepare(shortcutKeys) {
+        // Display the first photo
+        document.getElementById(this.photoEleId).setAttribute("src", this.photos.url);
+
+        // Setup click event handlers on buttons
+        var scoreBtns = document.querySelectorAll(".score");
+        var self = this;
+        scoreBtns.forEach(function(elem) {
+            elem.addEventListener("click", (e) => {
+                self.userScore(e.currentTarget.id);
+            })
+        });
+        
+        // Setup keyboard shortcut keys
+        function handleKey(e) {
+            var score = shortcutKeys[e.key];
+            if (typeof(score) !== typeof undefined) {
+                self.userScore(score);
+            }
         }
-        // Another ugly thing - CSS animations are not run when the
-        // tab is inactive, so use a timeout rather than transitionend
-        // event to ensure the buttons are always enabled. Hard-wire
-        // the animation duration
-        //img.addEventListener("transitionend", photoDisplayed, false);
-        setTimeout(photoDisplayed, animationDuration);
-        StartTiming();
-    };
-    img.className = "sample loading";
-    img.src = url;
-}
+        document.addEventListener("keydown", handleKey);
 
-function showTimeInSecs(secs) {
-    document.getElementById("time").innerHTML = Math.abs(escapeTimeout / 1000 - secs).toFixed(1);
-}
+        // Start the countdown timer
+        this.startTiming();
+    }
 
-// Starts the timer, and sets a timeout to score the current image as
-// "escape" once the timeout has elapsed.
-function StartTiming() {
-    startTime = Date.now();
+
+    // =======================
+    // Game functions
+
+    // "Disable" the "Ant" and "Non ant" buttons.
+    // They aren't really disabled, but scoring doesn't function while they are disabled
+    disableButtons() {
+        //console.log("DISABLE");
+        this.buttonsDisabled = true;
+    }
+
+    // "Enable" the "Ant" and "Non ant" buttons.
+    enableButtons() {
+        this.buttonsDisabled = false;
+    }
+
+    /** Loads a new photo. A new image element is created, its src
+        attribute is set to the specified url, and its class is set to
+        self.photoEleId and "loading". Once the image has been loaded, the
+        element is added to the document, its ID set to "sample",
+        "loading" is removed from its class, and the countdown timer is
+        started. */
+    loadPhoto(url) {
+        var img = new Image;
+        var self = this;
+        img.onload = function () {
+            var img = this;
+            var old = document.getElementById(self.photoEleId);
+            // Clear ID on old element, and set it on the new element
+            old.id = null;
+            img.id = self.photoEleId;
+            insertAfter(this, old);
+            // Calling setTimeout is an ugly hack to get the display to animate. It can fail
+            setTimeout(function() {img.classList.remove("loading"); }, 100);
+            function photoDisplayed(e) {
+                //img.removeEventListener("transitionend", photoDisplayed, false);
+                self.enableButtons();
+                // New image is now displayed, get rid of the old one
+                removeElement(old);
+            }
+            // Another ugly thing - CSS animations are not run when the
+            // tab is inactive, so use a timeout rather than transitionend
+            // event to ensure the buttons are always enabled. Hard-wire
+            // the animation duration
+            //img.addEventListener("transitionend", photoDisplayed, false);
+            setTimeout(photoDisplayed, self.animationDuration);
+            self.startTiming();
+        };
+        img.className = this.photoEleId + " loading";
+        img.src = url;
+    }
+
+    showTimeInSecs(secs) {
+        document.getElementById("time").innerHTML = Math.abs(this.escapeTimeout / 1000 - secs).toFixed(1);
+    }
+
+    // Starts the timer, and sets a timeout to score the current image as
+    // "escape" once the timeout has elapsed.
+    startTiming() {
+        this.startTime = Date.now();
     
-    // Update timer regularly
-    timerId = setInterval(function() {
-        nMilliSecs = Date.now() - startTime;
-        showTimeInSecs(nMilliSecs / 1000);
-    }, 20);
+        // Update timer regularly
+        var self = this;
+        this.timerId = setInterval(function() {
+            var nMilliSecs = Date.now() - self.startTime;
+            self.showTimeInSecs(nMilliSecs / 1000);
+        }, 20);
 
-    function timeoutFired() {
-        timeoutId = null;
-        if (allowEscape)
-            userScore("escape");
+        function timeoutFired() {
+            self.timeoutId = null;
+            if (self.allowEscape)
+                self.userScore("escape");
+        }
+        this.timeoutId = setTimeout(timeoutFired, this.escapeTimeout);
     }
-    timeoutId = setTimeout(timeoutFired, escapeTimeout);
-}
 
-// Stops the timer
-function StopTiming() {
-    nMilliSecs = Date.now() - startTime;
-    clearInterval(timerId);
-    return nMilliSecs;
-}
+    // Stops the timer
+    stopTiming() {
+        var nMilliSecs = Date.now() - this.startTime;
+        clearInterval(this.timerId);
+        return nMilliSecs;
+    }
 
-// Called when there are no more images to be scored. Saves the total
-// time in a cookie, and displays the finish page
-function trialFinished() {
-    setCookie("totalTime", logger.totalElapsed);
-    setCookie("totalScored", totalScored);
-    setCookie("numBadMistakes", numBadMistakes);
-    // Browse to the finish page
-    window.location = "finish.html"; 
-}
-
-// Returns true if the user's score seems to represent a reasonable choice.
-function isScorePlausible(score) {
-    var kt = photos.knownType;
-    //if (!(kt == null || kt == score))
-    //    console.log("ERROR: " + kt + " =? " + score + ", " + (kt == null || kt == score));
-    return (kt == null || kt == score);
-}
-
-// Records the user's classification for the current image.  Animates
-// the current image away, and loads the next image.
-function userScore(score) {
-    // There's a short potential race condition - while the new photo
-    // is loading, we could accidentally re-score the old photo. To
-    // avoid this, we "disable" the buttons while a photo is loading,
-    // and if the user scores during that time, we just ignore it
-    if (buttonsDisabled) {
-        //console.log("Ignoring score, buttons disabled: " + photos.url + ", " + score  + ", " + nMilliSecs);
-        return false;
+    // Called when there are no more images to be scored. Saves the total
+    // time in a cookie, and displays the finish page
+    trialFinished() {
+        setCookie("totalTime", this.logger.totalElapsed);
+        setCookie("totalScored", this.totalScored);
+        setCookie("numBadMistakes", this.numBadMistakes);
+        // Browse to the finish page
+        window.location = "finish.html"; 
     }
     
-    // Cancel the timeout since the image has been scored
-    if (timeoutId) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
-    }
-
-    if (!photos.hasCurrentPhoto) {
-        //console.log("Skipping score - no current photo (" + photos.index + " of " + photos.numToShow + ")");
-        return false;
+    // Returns true if the user's score seems to represent a reasonable choice.
+    isScorePlausible(score) {
+        var kt = this.photos.knownType;
+        //if (!(kt == null || kt == score))
+        //    console.log("ERROR: " + kt + " =? " + score + ", " + (kt == null || kt == score));
+        return (kt == null || kt == score);
     }
     
-    disableButtons();
-
-    nMilliSecs = StopTiming();
-    logger.logImageScore(photos.url, score, nMilliSecs);
-
-    totalScored++;
-    // Did they get it blatantly wrong?
-    numBadMistakes += isScorePlausible(score) ? 0 : 1;
-    
-    // Move on to the next image
-    var morePhotos = photos.moveToNext;
-    var ie = document.getElementById("sample");
-    ie.classList.add(score);
-    function onTransEnd(e) {
-        // Hide it, but don't remove it because it's a place holder for the next image
-        ie.style.display = "none";
-        if (!morePhotos)
-            trialFinished();
+    // Records the user's classification for the current image.  Animates
+    // the current image away, and loads the next image.
+    userScore(score) {
+        // There's a short potential race condition - while the new photo
+        // is loading, we could accidentally re-score the old photo. To
+        // avoid this, we "disable" the buttons while a photo is loading,
+        // and if the user scores during that time, we just ignore it
+        if (this.buttonsDisabled) {
+            //console.log("Ignoring score, buttons disabled: " + this.photos.url + ", " + score  + ", " + nMilliSecs);
+            return false;
+        }
+        
+        // Cancel the timeout since the image has been scored
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = null;
+        }
+        
+        if (!this.photos.hasCurrentPhoto) {
+            //console.log("Skipping score - no current photo (" + this.photos.index + " of " + this.photos.numToShow + ")");
+            return false;
+        }
+        
+        this.disableButtons();
+        
+        var nMilliSecs = this.stopTiming();
+        this.logger.logImageScore(this.photos.url, score, nMilliSecs);
+        
+        this.totalScored++;
+        // Did they get it blatantly wrong?
+        this.numBadMistakes += this.isScorePlausible(score) ? 0 : 1;
+        
+        // Move on to the next image
+        var morePhotos = this.photos.moveToNext;
+        var ie = document.getElementById(this.photoEleId);
+        ie.classList.add(score);
+        var self = this;
+        function onTransEnd(e) {
+            // Hide it, but don't remove it because it's a place holder for the next image
+            ie.style.display = "none";
+            if (!morePhotos)
+                self.trialFinished();
+        }
+        // Don't use transitionend since it doesn't fire if tab is inactive
+        //ie.addEventListener("transitionend", onTransEnd, false);
+        setTimeout(onTransEnd, this.animationDuration);
+        
+        // Load next image
+        if (morePhotos) {
+            this.loadPhoto(this.photos.url);
+        }
+        
+        return true;
     }
-    // Don't use transitionend since it doesn't fire if tab is inactive
-    //ie.addEventListener("transitionend", onTransEnd, false);
-    setTimeout(onTransEnd, animationDuration);
-    
-    // Load next image
-    if (morePhotos) {
-        LoadPhoto(photos.url);
-    }
-
-    return true;
-}
-
-// Setup keyboard shortcut keys
-document.addEventListener("keydown", handleKey);
-function handleKey(e) {
-    if (e.key == "a" || e.key == "A") {
-        userScore("ant");
-    } else if (e.key == "n" || e.key == "N") {
-        userScore("notAnt");
-    }
-}
-
-// ---- Startup function ----
-
-function StartTrial(dryRun) {
-    // Get the data logger
-    logger = GetLogger(dryRun);
-    // Is this the user's first attempt?
-    const noob = new URLSearchParams(window.location.search).get('noob');
-    logger.logUserSession(noob == "T", window.screen.width, window.screen.height, window.devicePixelRatio, navigator.userAgent);
-    
-    // Setup the photos to be displayed, and show the first one
-    // candidatePhotos and numPhotos should have been defined in photo-list.js
-    photos = new PhotoSeq(candidatePhotos, numPhotos);
-    document.getElementById("sample").setAttribute("src", photos.url)
-    // Setup click event handlers on buttons
-    scoreBtns = document.querySelectorAll(".button");
-    scoreBtns.forEach(function(elem) {
-        elem.addEventListener("click", (e) => {
-            userScore(e.currentTarget.id);
-        })
-    });
-    // Start the countdown timer
-    StartTiming();
 }

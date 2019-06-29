@@ -32,7 +32,8 @@
     <script>
       function StartTrial() {
           // Get the data logger. This logger just writes to the console
-          var logger = new ConsoleDataLogger(GetUserId());
+          InitFirebase();
+          var logger = new FirebaseDataLogger(GetUserId());
 
           // Is this the user's first attempt?
           const noob = GetUrlParam("noob") == "T";
@@ -55,8 +56,6 @@
           alert("Looks like there's a problem with photo-list.js.\nCheck the browser console for error messages.");
       }
       
-      InitFirebase();
-
       window.onload = StartTrial;
 
     </script>
