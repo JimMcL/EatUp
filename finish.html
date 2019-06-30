@@ -11,10 +11,12 @@
       function sendEmail(e) {
           var emailAddress = document.getElementById("email").value;
           if (emailAddress) {
-              // Use same sessionId if possible
-              let userId = getCookie("sessionId") || GetUserId();
               // Get the data logger
-              let logger = new FirebaseLogger(userId);
+              let logger = new FirebaseLogger(GetUserId());
+              // Use same sessionId if possible
+              let sessionId = getCookie("sessionId");
+              if (sessionId)
+                  logger.sessionId = sessionId;
               // Log the email address
               logger.logUserEmail(emailAddress);
               // Show thanks message and hide the email form

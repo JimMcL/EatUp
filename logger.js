@@ -55,6 +55,7 @@ class ConsoleDataLogger {
     // notified of the research outcomes
     logUserEmail(email) {
         this._log({type: "email",
+                   userId: this.uid,
                    email: email});
     }
 };
