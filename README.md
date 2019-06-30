@@ -8,6 +8,7 @@ Currently, this project is hosted on GitHub pages, where it can be accessed at
 https://jimmcl.github.io/EatUp
 
 # TODO
+- Split out a generic Javascript library to help other people build their own similar games.
 - Some sort of progress indicator.
 - Show/email people their scores to motivate them. Just present overall success/fail counts? If so, then we would need to somehow address issues with learning.
 - Inform people about "a" and "n" keypresses (Bruno Buzatto)

@@ -8,6 +8,8 @@ The img element:
 The score buttons:
   class = "score"
   id = score value (e.g. "ant")
+
+When the trial is finished, the URL is set to "finish.html".
 */
 
 // =======================
@@ -176,6 +178,8 @@ class Trial {
         setCookie("totalTime", this.logger.totalElapsed);
         setCookie("totalScored", this.totalScored);
         setCookie("numBadMistakes", this.numBadMistakes);
+        // Save the session ID so we can optionally report user's results if we decide that's a good idea
+        setCookie("sessionId", this.logger.sessionId);
         // Browse to the finish page
         window.location = "finish.html"; 
     }

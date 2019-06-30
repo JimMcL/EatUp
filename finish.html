@@ -11,12 +11,15 @@
       function sendEmail(e) {
           var emailAddress = document.getElementById("email").value;
           if (emailAddress) {
+              // Use same sessionId if possible
+              let userId = getCookie("sessionId") || GetUserId();
               // Get the data logger
-              var logger = new FirebaseLogger(GetUserId());
+              let logger = new FirebaseLogger(userId);
               // Log the email address
               logger.logUserEmail(emailAddress);
-              // Show thanks message
+              // Show thanks message and hide the email form
               document.getElementById("thanks").style.display = "";
+              document.getElementById("emailBlock").style.display = "none";
           }
           // Don't submit the form to a server
           return false;
@@ -55,17 +58,20 @@
       You finished in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done!
     <p class="result" id="bad">
       You finished in <span class="showtime">1000</span> seconds, however you made <span class="label">too many mistakes!</span>
-    Why don&apos;t you <a href="index.html" class="button">Try again?</a>
+      Why don&apos;t you <a href="index.html" class="button">Try again?</a>
+    </p>
 
-    <p>If you would like to be notified of the outcome of this research, please leave your email address below.
-      If you choose to supply your email address, we will not use it for any other purpose, nor will we supply it to any third party.
+    <div id="emailBlock">
+      <p>If you would like to be notified of the outcome of this research, please leave your email address below.
+        If you choose to supply your email address, we will not use it for any other purpose, nor will we supply it to any third party.
 
-      <form id="emailForm">
-        Email: <input type="email" id="email">
-        <input id="submit" type="submit" value="Submit" class="button">
-      </form>
+        <form id="emailForm">
+          Email: <input type="email" id="email">
+          <input id="submit" type="submit" value="Submit" class="button">
+        </form>
 
-      <p class="thanks" id="thanks" style="display:none">Thanks, We'll be in touch!
+    </div>
+    <p class="thanks" id="thanks" style="display:none">Thanks, we'll be in touch!
 
     <p><a href="index.html" class="button">OK</a>
     
