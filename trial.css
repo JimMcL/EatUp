@@ -2,8 +2,9 @@
 body, textarea { font-family: sans-serif }
 h1 { padding: .5em; color: #e8514e }
 h2 { padding: .5em;  }
-a { text-decoration: none }
-p, form { padding: .5em 1em; }
+a { text-decoration: none; color: #4f8fff }
+p, form, ul { padding: .5em 1em; }
+ul { margin-left: 1em; }
 .important { color: #c9c86b; font-size: 120% }
 span.label { color: #e8514e }
 img { margin:.8ex 1ex; box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.1), 0 6px 20px 0 rgba(255, 255, 255, 0.19); }
