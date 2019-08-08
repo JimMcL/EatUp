@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Check Photo List</title>
+    <script src="photo-list.js"></script>
+    <script>
+      'use strict';
+    </script>
+
+    <style>
+      .v { vertical-align: top }
+      .h { text-align: right; font-weight: bold }
+    </style>
+  </head>
+  <body>
+    <h1>Check Photo List</h1>
+
+    <p>If any of the values below are not checked, there is a problem with <code>photo-list.js</code>.
+    </p>
+    
+    <table>
+      <tr>
+        <td>escapeTimeout is defined?</td>
+        <td><input type="checkbox" id="timeoutCB"></td>
+      </tr>
+      <tr>
+        <td>numPhotos is defined?</td>
+        <td><input type="checkbox" id="numPhotosCB"></td>
+      </tr>
+      <tr>
+        <td>candidatePhotos is defined?</td>
+        <td><input type="checkbox" id="candidatePhotosCB"></td>
+      </tr>
+    </table>
+
+    <p>Every row in the table below should have an image in the right column. All images should have the same size.</p>
+    
+    <table id="imagesTable">
+      <tr><th>Values</th><th>Image</th></tr>
+    </table>
+    
+
+    <script>
+      var cb = document.getElementById("timeoutCB");
+      cb.checked = escapeTimeout;
+      cb = document.getElementById("numPhotosCB");
+      cb.checked = numPhotos;
+      cb = document.getElementById("candidatePhotosCB");
+      cb.checked = candidatePhotos;
+
+      function addPhotoRow(idx, table) {
+          var row = table.insertRow(-1);
+          var ph = candidatePhotos[idx];
+          row.innerHTML = "<td class='v'>" +
+              "<table>" +
+              "<tr><td class='h'>Image</td><td>" + idx + "</td></tr>" +
+              "<tr><td class='h'>URL</td><td>" + ph.url + "</td></tr>" +
+              "<tr><td class='h'>Obvious type</td><td>" + ph.known + "</td></tr>" +
+              "<tr><td class='h'>Selection weight</td><td>" + ph.weight + "</td></tr>" +
+              "</table>" + 
+              "</td>" + 
+              "<td><img src='" + ph.url + "'></td>";
+      }
+
+      var tableRef = document.getElementById('imagesTable').getElementsByTagName('tbody')[0];
+      for (var i = 0; i < candidatePhotos.length; i++) {
+          addPhotoRow(i, tableRef);
+      }
+      
+    </script>
+  </body>
+</html>
