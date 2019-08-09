@@ -1,13 +1,13 @@
 // Photo timeout (i.e. time until "escape") in milliseconds
-escapeTimeout = 5000;
+var escapeTimeout = 5000;
 // Number of photos to show in a single trial
-numPhotos = 15;
+var numPhotos = 20;
 // List of candidate photos. Each photo has a URL, a weight
 // (i.e. relative likelihood of being included in a trial), and
 // whether its type should be known (i.e. should be correctly
 // identified) by the "average" predator. The "known" field must be
 // one of "ant", "notAnt" or null.
-candidatePhotos = [
+var candidatePhotos = [
     { url: "images/IMG_1990.jpg",
       weight: 1,
       known: "notAnt"
