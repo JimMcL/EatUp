@@ -9,6 +9,7 @@
     <style>
       .v { vertical-align: top }
       .h { text-align: right; font-weight: bold }
+      .err { color: red; font-weight: bold }
     </style>
   </head>
   <body>
@@ -50,11 +51,12 @@
       function addPhotoRow(idx, table) {
           var row = table.insertRow(-1);
           var ph = candidatePhotos[idx];
+          var badKnown = (["ant", "notAnt", null].includes(ph.known) ? "" : " <span class='err'>invalid value</span>");
           row.innerHTML = "<td class='v'>" +
               "<table>" +
               "<tr><td class='h'>Image</td><td>" + idx + "</td></tr>" +
               "<tr><td class='h'>URL</td><td>" + ph.url + "</td></tr>" +
-              "<tr><td class='h'>Obvious type</td><td>" + ph.known + "</td></tr>" +
+              "<tr><td class='h'>Obvious type</td><td>" + ph.known + badKnown + "</td></tr>" +
               "<tr><td class='h'>Selection weight</td><td>" + ph.weight + "</td></tr>" +
               "</table>" + 
               "</td>" + 
