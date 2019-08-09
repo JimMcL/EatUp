@@ -38,16 +38,18 @@
   </body>
 
   <script>
+    // Uncomment this if we only require users to view the consent form once rather than every time the game is played
+
     // If the consent form has already been accepted, provide a button
     // to explicitly display the consent form because now the Play
     // button goes straight to the trial
-    if (HasUserId()) {
-        var cb = document.getElementById("consent");
-        cb.style.display = "inline-block";
-        cb.addEventListener("click", (e) => {
-            ClearUserId();
-            return true;
-        }, false);
-    }
+    // if (HasUserId()) {
+    //     var cb = document.getElementById("consent");
+    //     cb.style.display = "inline-block";
+    //     cb.addEventListener("click", (e) => {
+    //         ClearUserId();
+    //         return true;
+    //     }, false);
+    // }
     </script>
 </html>
