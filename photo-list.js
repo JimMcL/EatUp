@@ -154,47 +154,47 @@ var candidatePhotos = [
     },
     { url: "images/146.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/147.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/303.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/1545.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/1547.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/2609.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/2626.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/2647.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/2651.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/2751.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/3199.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z001.jpg",
       weight: 1,
@@ -202,31 +202,31 @@ var candidatePhotos = [
     },
     { url: "images/Z002.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z003.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z004.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z005.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z008.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z009.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z010.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z011.jpg",
       weight: 1,
@@ -266,59 +266,59 @@ var candidatePhotos = [
     },
     { url: "images/943.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/3109.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/3112.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/3114.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4013.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4017.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4029.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4030.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4199.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4230.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4233.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/4755.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z020.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z021.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z022.jpg",
       weight: 1,
@@ -346,19 +346,19 @@ var candidatePhotos = [
     },
     { url: "images/Z028.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z029.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z030.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z031.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z032.jpg",
       weight: 1,
@@ -366,7 +366,7 @@ var candidatePhotos = [
     },
     { url: "images/Z033.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z034.jpg",
       weight: 1,
@@ -386,11 +386,11 @@ var candidatePhotos = [
     },
     { url: "images/Z039.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z040.jpg",
       weight: 1,
-      known: "null"
+      known: null
     },
     { url: "images/Z041.jpg",
       weight: 1,
@@ -398,7 +398,7 @@ var candidatePhotos = [
     },
     { url: "images/IMG_8943.jpg",
       weight: 1,
-      known: "ant"
+      known: null
     },
     { url: "images/IMG_8184.jpg",
       weight: 1,
@@ -406,7 +406,7 @@ var candidatePhotos = [
     },
     { url: "images/IMG_8113.jpg",
       weight: 1,
-      known: "ant"
+      known: null
     },
     { url: "images/IMG_7181.jpg",
       weight: 1,
