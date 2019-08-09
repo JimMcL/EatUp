@@ -2,11 +2,15 @@
   <head>
     <title>Eat up</title>
     <link href="trial.css" rel="stylesheet">
-</head>
+    <!-- Required for trial parameters -->
+    <script src="photo-list.js"></script>
+  </head>
   <body id="start">
 
     <h1>Have you played this game before?</h1>
-    <p>You will be shown 30 photos of insects and spiders. You have 5 seconds to decide if each picture is an ant or not.
+    <p>You will be shown <span id="numPhotos">30</span>
+      photos of insects and spiders. You have <span id="numSeconds">5</span>
+      seconds to decide if each picture is an ant or not.
 
     <p class="important">
       Remember, click the <span class="label">Ant</span> button if it's an ant, click the <span class="label">Not ant</span> button if it's anything else.
@@ -15,5 +19,12 @@
       <a class="button" href="trial.html?noob=T">No, this is my first time</a>
       <a class="button" href="trial.html?noob=F">Yes, I've played before</a>
 
-</body>
+  </body>
+
+  <script>
+    // Fill in changeable parameters
+    document.getElementById("numPhotos").innerText = numPhotos;
+    document.getElementById("numSeconds").innerText = escapeTimeout / 1000;
+
+  </script>
 </html>
