@@ -86,7 +86,9 @@
     <p>
       Thanks for participating!
       You scored <span id="numRight" class ="label"></span> out of
-      <span id="numTotal" class="label"></span> in <span class="label"><span class="showtime">1000</span> seconds!</span>
+      <span id="numTotal" class="label"></span> correct
+      in <span class="label"><span class="showtime">1000</span>
+      seconds!</span>
       <span id="congrats"></span>
     </p>
 
@@ -157,9 +159,9 @@
     document.getElementById("numRight").innerText = total - numErrors;
     document.getElementById("numTotal").innerText = total + 0;
     document.getElementById("congrats").innerText = numErrors == 0 ? "Perfect!" :
-                                                    numErrors / total < .2 ? "Excellent!" :
-                                                    numErrors / total < .5 ? "Well done!" :
-                                                    "Good effort!";
+                                                    numErrors / total < .2 ? "Excellent! Scroll down to see what tricked you." :
+                                                    numErrors / total < .5 ? "Well done! Scroll down to see what tricked you." :
+                                                    "Good effort! Scroll down to see what tricked you.";
     if (showUserMistakes && numErrors > 0)
         showMistakes(errors);
   </script>
