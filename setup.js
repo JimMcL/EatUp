@@ -1,8 +1,6 @@
 "use strict";
 // Some functions which are probably specific to my application
 
-const PHOTOS_INFO_URL = "https://jimmcl.github.io/EatUp/photo_info.csv";
-
 
 // Returns true if we are in debug mode. Debug mode is invoked if: (1)
 // the document is a local file (i.e. protocol == "file:", or (2) the

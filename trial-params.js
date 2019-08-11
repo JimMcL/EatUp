@@ -1,8 +1,13 @@
 // Photo timeout (i.e. time until "escape") in milliseconds
-var escapeTimeout = 10000;
+const escapeTimeout = 10000;
 
 // Number of photos to show in a single trial
-var numPhotos = 12;
+const numPhotos = 12;
 
 // Show user their mistakes?
-var showUserMistakes = true;
+const showUserMistakes = true;
+
+// Where do we get photo info from?
+//const PHOTOS_INFO_URL = "https://jimmcl.github.io/EatUp/photo_info.csv";
+const PHOTOS_INFO_URL = "photo_info.csv";
+
