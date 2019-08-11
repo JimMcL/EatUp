@@ -33,7 +33,7 @@ function ChooseLogger(debug) {
 
 // Downloads the photo list and starts the trial.
 // Assumes that papaparse is loaded.
-function PrepareAndStartTrial(logger, photosPerTrial, photocsvUrl, photoEleId, escapeTimeout, animationDuration, shortcutKeys) {
+function PrepareAndStartTrial(logger, photosPerTrial, photosCsvUrl, photoEleId, escapeTimeout, animationDuration, shortcutKeys) {
 
     // Invoked once we have the list of photos
     function prepare(data) {
@@ -54,9 +54,7 @@ function PrepareAndStartTrial(logger, photosPerTrial, photocsvUrl, photoEleId, e
         new Trial(logger, photos, photoEleId, escapeTimeout, animationDuration).prepare(shortcutKeys);
     }
 
-    var url = "photo_info.csv";
-    url = "http://jimmcl.github.io/EatUp/photo_info.csv"; // TODO delete this line
-    Papa.parse(url, {
+    Papa.parse(photosCsvUrl, {
 	download: true,
         header: true,
         skipEmptyLines: true,
