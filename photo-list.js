@@ -1,7 +1,7 @@
 // Photo timeout (i.e. time until "escape") in milliseconds
-var escapeTimeout = 5000;
+var escapeTimeout = 10000;
 // Number of photos to show in a single trial
-var numPhotos = 20;
+var numPhotos = 12;
 // List of candidate photos. Each photo has a URL, a weight
 // (i.e. relative likelihood of being included in a trial), and
 // whether its type should be known (i.e. should be correctly
