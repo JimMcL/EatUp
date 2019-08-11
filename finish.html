@@ -125,7 +125,7 @@
   <script language="javascript">
     showTime(getCookie("totalTime"));
     var total = getCookie("totalScored");
-    var errors = getCookie("errors");
+    var errors = JSON.parse(getCookie("errors"));
     document.getElementById("numRight").innerText = total - errors.length;
     document.getElementById("numTotal").innerText = total + 0;
     //showAppropriateResult(getCookie("numBadMistakes") == 0);
