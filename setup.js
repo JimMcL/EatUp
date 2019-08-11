@@ -71,5 +71,5 @@ function PrepareAndStartTrial(logger, photosPerTrial, photosCsvUrl, photoEleId, 
         new Trial(logger, photos, photoEleId, escapeTimeout, animationDuration).prepare(shortcutKeys);
     }
 
-    ReadPhotosCSV(prepare)
+    ReadPhotosCSV(photosCsvUrl, prepare)
 }
