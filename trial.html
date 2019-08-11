@@ -8,9 +8,15 @@
     <script src="user.js"></script>
     <script src="trial.js"></script>
     <script src="mfb.js"></script>
+    <script src="setup.js"></script>
+    <script src="papaparse.min.js"></script>
     
   </head>
   <body id="trial">
+
+    <div id="watermark" style="display:none">
+      <div class="text">DEBUG ONLY</div>
+    </div>
 
     <div class="imgbox" >
       <div class="holder">
@@ -31,25 +37,29 @@
     <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
     <script>
       function StartTrial() {
-          // Get the data logger. This logger just writes to the console
-          InitFirebase();
-          var logger = new FirebaseLogger(GetUserId());
-
+          // is this for debugging only (i.e. not real data)?
+          const debug = IsDebugging();
           // Is this the user's first attempt?
           const noob = GetUrlParam("noob") == "T";
+
+          // Get the data logger
+          var logger = ChooseLogger(debug);
 
           // Log the session
           logger.logUserSession(noob, window.screen.width, window.screen.height, window.devicePixelRatio, navigator.userAgent);
           
-          // Setup the photos to be displayed.  candidatePhotos and
-          // numPhotos should have been defined in photo-list.js
-          var photos = new PhotoSeq(candidatePhotos, numPhotos);
-
           // Allow user to press keys to select a button, a or A for an ant, n or N for not an ant
           var shortcutKeys = {a: "ant", A: "ant", n: "notAnt", N: "notAnt"};
 
+          // Setup the photos to be displayed. 
+          // numPhotos is defined in photo-list.js.
+          // Candidate photos are defined in a CSV file
+          var photosUrl = debug ? "http://jimmcl.github.io/EatUp/photo_info.csv" : "photo_info.csv";
+          PrepareAndStartTrial(logger, numPhotos, photosUrl, "sample", escapeTimeout, 500, shortcutKeys);
+
+          //var photos = new PhotoSeq(candidatePhotos, numPhotos);
           // Start the trial
-          new Trial(logger, photos, "sample", escapeTimeout, 500).prepare(shortcutKeys);
+          //new Trial(logger, photos, "sample", escapeTimeout, 500).prepare(shortcutKeys);
       }
 
       if (typeof candidatePhotos === typeof undefined) {
@@ -62,7 +72,4 @@
     <!-- ==================================================================== -->
     
   </body>
-
-  <script>
-  </script>
 </html>

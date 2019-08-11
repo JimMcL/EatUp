@@ -6,13 +6,14 @@
     <script src="logger.js"></script>
     <script src="mfb.js"></script>
     <script src="user.js"></script>
+    <script src="setup.js"></script>
     <script language="javascript">
 
       function sendEmail(e) {
           var emailAddress = document.getElementById("email").value;
           if (emailAddress) {
               // Get the data logger
-              let logger = new FirebaseLogger(GetUserId());
+              let logger = ChooseLogger();
               // Use same sessionId if possible
               let sessionId = getCookie("sessionId");
               if (sessionId)
@@ -36,10 +37,10 @@
       }
 
       // Displays the appropriate block depending on whether the user made any obvious mistakes
-      function showAppropriateResult(allGood) {
-          document.getElementById("good").style.display = allGood ? "block" : "none";
-          document.getElementById("bad").style.display = allGood ? "none" : "block";
-      }
+      // function showAppropriateResult(allGood) {
+      //     document.getElementById("good").style.display = allGood ? "block" : "none";
+      //     document.getElementById("bad").style.display = allGood ? "none" : "block";
+      // }
       
       // ---- Startup function ----
 
@@ -51,17 +52,25 @@
     </script>
   </head>
   <body id="finish">
+    <div id="watermark" style="display:none">
+      <div class="text">DEBUG ONLY</div>
+    </div>
+
     <h1>Eat up</h1>
 
     <p>
       Thanks for participating!
 
-    <p class="result" id="good">
-      You finished in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done!
-    <p class="result" id="bad">
-      You finished in <span class="showtime">1000</span> seconds, however you made <span class="label">too many mistakes!</span>
-      Why don&apos;t you <a href="index.html" class="button">Try again?</a>
-    </p>
+    <!-- <p class="result" id="good"> -->
+    <!--   You finished in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done! -->
+    <!-- <p class="result" id="bad"> -->
+    <!--   You finished in <span class="showtime">1000</span> seconds, however you made <span class="label">too many mistakes!</span> -->
+    <!--   Why don&apos;t you <a href="index.html" class="button">Try again?</a> -->
+      <!-- </p> -->
+
+    <p>You scored <span id="numRight" class ="label"></span>
+      out of
+      <span id="numTotal" class="label"></span> in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done!</p>
 
     <div id="emailBlock">
       <p>If you would like to be notified of the outcome of this research, please leave your email address below.
@@ -115,6 +124,10 @@
   </body>
   <script language="javascript">
     showTime(getCookie("totalTime"));
-    showAppropriateResult(getCookie("numBadMistakes") == 0);
+    var total = getCookie("totalScored");
+    var errors = getCookie("errors");
+    document.getElementById("numRight").innerText = total - errors.length;
+    document.getElementById("numTotal").innerText = total + 0;
+    //showAppropriateResult(getCookie("numBadMistakes") == 0);
   </script>
 </html>

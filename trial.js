@@ -1,8 +1,9 @@
+"use strict";
 /* Trial logic HTML assumptions: 
 The img element:
   id = "sample"
   class = "sample"
-  While an image is loading, it temporarily has class "loading". 
+  While an image is loading, it (temporarily) has class "loading". 
   When the image has been scored, the score name (e.g. "ant") is added to the class list.
 
 The score buttons:
@@ -55,6 +56,7 @@ class Trial {
         this.startTime = 0;
         this.timeoutId = null;
         this.timerId;
+        this.mistakes = [];
         this.numBadMistakes = 0
         this.totalScored = 0;
         this.buttonsDisabled = false;
@@ -177,6 +179,7 @@ class Trial {
     trialFinished() {
         setCookie("totalTime", this.logger.totalElapsed);
         setCookie("totalScored", this.totalScored);
+        setCookie("errors", JSON.stringify(this.mistakes));
         setCookie("numBadMistakes", this.numBadMistakes);
         // Save the session ID so we can optionally report user's results if we decide that's a good idea
         setCookie("sessionId", this.logger.sessionId);
@@ -221,6 +224,9 @@ class Trial {
         this.logger.logImageScore(this.photos.url, score, nMilliSecs);
         
         this.totalScored++;
+        // Record mistakes
+        if (score != this.photos.currentPhoto.correctScore)
+            this.mistakes.push(this.photos.url);
         // Did they get it blatantly wrong?
         this.numBadMistakes += this.isScorePlausible(score) ? 0 : 1;
         

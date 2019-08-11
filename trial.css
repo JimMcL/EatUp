@@ -107,3 +107,18 @@ body#trial { background: black; color: #e0e0e0; }
 
 body#finish { max-width: 35em; margin: auto }
 .thanks { display: inline-block; margin: 1ex 1em; border: 1px solid #e7fbeb; border-radius:.5em; background: #ffff8820 }
+
+
+/* -------------- Debug watermark --------------- */
+
+#watermark {
+    position:absolute;
+    z-index:0;
+    display:block;
+    min-height:99%; 
+    min-width:99%;
+}
+#watermark .text {
+    color:red;
+    font-size:500%;
+}
