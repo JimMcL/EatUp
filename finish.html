@@ -160,7 +160,7 @@
                                                     numErrors / total > .8 ? "Excellent!" :
                                                     numErrors / total > .5 ? "Well done!" :
                                                     "Good effort!";
-    if (showUserMistakes)
+    if (showUserMistakes && numErrors > 0)
         showMistakes(errors);
   </script>
 </html>
