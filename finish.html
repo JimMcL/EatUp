@@ -157,8 +157,8 @@
     document.getElementById("numRight").innerText = total - numErrors;
     document.getElementById("numTotal").innerText = total + 0;
     document.getElementById("congrats").innerText = numErrors == 0 ? "Perfect!" :
-                                                    numErrors / total > .8 ? "Excellent!" :
-                                                    numErrors / total > .5 ? "Well done!" :
+                                                    numErrors / total < .2 ? "Excellent!" :
+                                                    numErrors / total < .5 ? "Well done!" :
                                                     "Good effort!";
     if (showUserMistakes && numErrors > 0)
         showMistakes(errors);
