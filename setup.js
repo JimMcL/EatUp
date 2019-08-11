@@ -56,7 +56,7 @@ function PrepareAndStartTrial(logger, photosPerTrial, photosCsvUrl, photoEleId, 
     function prepare(data) {
         // Derive columns required by the PhotoSeq constructor
         var candidatePhotos = data.map(n => {
-            n.correctScore = n.family = "Formicidae" ? "ant" : "notAnt";
+            n.correctScore = n.family == "Formicidae" ? "ant" : "notAnt";
             n.url = n.webUrl;
             // Show more ants to get an even apparent mix of ants/non-ants
             n.weight = n.correctScore == "ant" ? 1.5 : 1;
