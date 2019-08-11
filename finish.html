@@ -124,7 +124,7 @@
   </body>
   <script language="javascript">
     showTime(getCookie("totalTime"));
-    var total = getCookie("totalScored");
+    var total = parseInt(getCookie("totalScored"));
     var errors = JSON.parse(getCookie("errors"));
     document.getElementById("numRight").innerText = total - errors.length;
     document.getElementById("numTotal").innerText = total + 0;
