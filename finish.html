@@ -7,6 +7,7 @@
     <script src="mfb.js"></script>
     <script src="user.js"></script>
     <script src="setup.js"></script>
+    <script src="papaparse.min.js"></script>
     <script language="javascript">
 
       function sendEmail(e) {
@@ -36,11 +37,31 @@
           }
       }
 
-      // Displays the appropriate block depending on whether the user made any obvious mistakes
-      // function showAppropriateResult(allGood) {
-      //     document.getElementById("good").style.display = allGood ? "block" : "none";
-      //     document.getElementById("bad").style.display = allGood ? "none" : "block";
-      // }
+      // Show the user the animals that they got wrong
+      function showMistakes(errors) {
+
+          function showErrors(photos) {
+              // Display the mistakes block
+              document.getElementById("mistakes").style.display = "block";
+              // Fill in the rows
+              function photoToRow(item) {
+                  var p = photos.find(function(p) {
+                      return p.webUrl == item;
+                  });
+                  var descr = p.family == "Formicidae" ? "an ant" :
+                      p.class == "Insecta" && p.isMimic ? "an ant-mimicking insect" :
+                      p.class == "Insecta" ? "an insect" :
+                      p.isMimic ? "an ant-mimicking spider" :
+                      "a spider";
+                  return "<tr><td>This is " + descr + "</td>" +
+                      "<td><img src='" + item + "'></td></tr>";
+              }
+              document.getElementById("errTable").innerHTML = errors.map(photoToRow).join("");
+          }
+          
+          ReadPhotosCSV(PHOTOS_INFO_URL, showErrors);
+          
+      }
       
       // ---- Startup function ----
 
@@ -50,6 +71,9 @@
       }
 
     </script>
+    <style>
+      #mistakes { border:2px solid #a04040; border-radius: 1ex; display: none; }
+    </style>
   </head>
   <body id="finish">
     <div id="watermark" style="display:none">
@@ -60,17 +84,10 @@
 
     <p>
       Thanks for participating!
-
-    <!-- <p class="result" id="good"> -->
-    <!--   You finished in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done! -->
-    <!-- <p class="result" id="bad"> -->
-    <!--   You finished in <span class="showtime">1000</span> seconds, however you made <span class="label">too many mistakes!</span> -->
-    <!--   Why don&apos;t you <a href="index.html" class="button">Try again?</a> -->
-      <!-- </p> -->
-
-    <p>You scored <span id="numRight" class ="label"></span>
-      out of
-      <span id="numTotal" class="label"></span> in <span class="label"><span class="showtime">1000</span> seconds!</span> Well done!</p>
+      You scored <span id="numRight" class ="label"></span> out of
+      <span id="numTotal" class="label"></span> in <span class="label"><span class="showtime">1000</span> seconds!</span>
+      <span id="congrats"></span>
+    </p>
 
     <div id="emailBlock">
       <p>If you would like to be notified of the outcome of this research, please leave your email address below.
@@ -107,9 +124,18 @@
         <li> Iain Macaulay</li>
         <li> Mark Helle</li>
         <li> Flickr user <a href="https://www.flickr.com/photos/22783863@N07/">Sankax</a> </li>
-        <li> Jim McLean</li>
+        <li> Jim M<sup>c</sup>Lean</li>
       </ul>
     </p>
+
+    <div id="mistakes">
+      <h2>Tricked!</h2>
+      <p>
+      <table id="errTable">
+      </table>
+      </p>
+    </p>
+
     
       <!-- ==================================================================== -->
       <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -124,10 +150,15 @@
   </body>
   <script language="javascript">
     showTime(getCookie("totalTime"));
-    var total = parseInt(getCookie("totalScored"));
-    var errors = JSON.parse(getCookie("errors"));
-    document.getElementById("numRight").innerText = total - errors.length;
+    var total = parseInt(getCookie("totalScored")) || 0;
+    var errors = JSON.parse(getCookie("errors") || "[]");
+    var numErrors = errors.length;
+    document.getElementById("numRight").innerText = total - numErrors;
     document.getElementById("numTotal").innerText = total + 0;
-    //showAppropriateResult(getCookie("numBadMistakes") == 0);
+    document.getElementById("congrats").innerText = numErrors == 0 ? "Perfect!" :
+                                                    numErrors / total > .8 ? "Excellent!" :
+                                                    numErrors / total > .5 ? "Well done!" :
+                                                    "Good effort!";
+    showMistakes(errors);
   </script>
 </html>

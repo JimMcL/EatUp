@@ -1,6 +1,9 @@
 "use strict";
 // Some functions which are probably specific to my application
 
+const PHOTOS_INFO_URL = "https://jimmcl.github.io/EatUp/photo_info.csv";
+
+
 // Returns true if we are in debug mode. Debug mode is invoked if: (1)
 // the document is a local file (i.e. protocol == "file:", or (2) the
 // URL has a query parameter "debug=T"
@@ -30,6 +33,22 @@ function ChooseLogger(debug) {
     return logger;
 }
 
+function ReadPhotosCSV(photosCsvUrl, callback) {
+    Papa.parse(photosCsvUrl, {
+	download: true,
+        header: true,
+        skipEmptyLines: true,
+        dynamicTyping: true,
+	complete: function(results) {
+            if (results.errors.length > 0) {
+                alert("Error retrieving photos to be displayed: " + results.errors[0].message + ", row " + results.errors[0].row);
+            } else {
+                // Call the callback
+                callback(results.data);
+            }
+	}
+    });
+}
 
 // Downloads the photo list and starts the trial.
 // Assumes that papaparse is loaded.
@@ -54,17 +73,5 @@ function PrepareAndStartTrial(logger, photosPerTrial, photosCsvUrl, photoEleId, 
         new Trial(logger, photos, photoEleId, escapeTimeout, animationDuration).prepare(shortcutKeys);
     }
 
-    Papa.parse(photosCsvUrl, {
-	download: true,
-        header: true,
-        skipEmptyLines: true,
-	complete: function(results) {
-            if (results.errors.length > 0) {
-                alert("Error retrieving photos to be displayed: " + results.errors[0].message + ", row " + results.errors[0].row);
-            } else {
-                // Construct photo list and start the trial
-                prepare(results.data);
-            }
-	}
-    });
+    ReadPhotosCSV(prepare)
 }
