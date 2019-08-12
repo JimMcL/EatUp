@@ -52,19 +52,9 @@
           var shortcutKeys = {a: "ant", A: "ant", n: "notAnt", N: "notAnt"};
 
           // Setup the photos to be displayed. 
-          // numPhotos is defined in photo-list.js.
           // Candidate photos are defined in a CSV file
-          var photosUrl = "photo_info.csv";
           PrepareAndStartTrial(logger, numPhotos, PHOTOS_INFO_URL, "sample", escapeTimeout, 500, shortcutKeys);
-
-          //var photos = new PhotoSeq(candidatePhotos, numPhotos);
-          // Start the trial
-          //new Trial(logger, photos, "sample", escapeTimeout, 500).prepare(shortcutKeys);
       }
-
-      // if (typeof candidatePhotos === typeof undefined) {
-      //     alert("Looks like there's a problem with photo-list.js.\nCheck the browser console for error messages.");
-      // }
       
       window.onload = StartTrial;
 
