@@ -1,5 +1,6 @@
 "use strict";
 // Some functions which are probably specific to my application
+// Depends on papaparse.js (or better yet, papaparse.min.js).
 
 
 // Returns true if we are in debug mode. Debug mode is invoked if: (1)
@@ -71,5 +72,5 @@ function PrepareAndStartTrial(logger, photosPerTrial, photosCsvUrl, photoEleId, 
         new Trial(logger, photos, photoEleId, escapeTimeout, animationDuration).prepare(shortcutKeys);
     }
 
-    ReadPhotosCSV(photosCsvUrl, prepare)
+    ReadPhotosCSV(photosCsvUrl, prepare);
 }
