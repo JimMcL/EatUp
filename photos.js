@@ -1,8 +1,7 @@
-// Depends on photo-list.js.
+"use strict";
 
 // The PhotoSeq class represents a random sequence of photos which
-// make up a single trial, with a current photo.  Candidate photos are
-// defined in photo-list.js.
+// make up a single trial, with a current photo.
 class PhotoSeq {
     constructor(photos, numToShow) {
         this.index = 0;
