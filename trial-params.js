@@ -1,8 +1,8 @@
 // Photo timeout (i.e. time until "escape") in milliseconds
-const escapeTimeout = 10000;
+const escapeTimeout = 5000;
 
 // Number of photos to show in a single trial
-const numPhotos = 12;
+const numPhotos = 15;
 
 // Show user their mistakes?
 const showUserMistakes = true;
