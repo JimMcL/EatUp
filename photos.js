@@ -15,6 +15,7 @@ class PhotoSeq {
     }
     get currentPhoto() { return this.photos[this.index]; }
     get hasCurrentPhoto() { return this.index < this.numToShow; }
+    get percentComplete() { return 100 * (this.index + 1) / this.numToShow; }
 
     // Returns the URL of the current photo
     get url() { return this.currentPhoto.url; }

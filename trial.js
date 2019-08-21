@@ -141,6 +141,12 @@ class Trial {
         };
         img.className = this.photoEleId + " loading";
         img.src = url;
+
+        
+        // Show progress through list of photos
+        var bar = document.getElementById("bar");
+        if (bar)
+            bar.style.width = this.photos.percentComplete;
     }
 
     showTimeInSecs(secs) {
