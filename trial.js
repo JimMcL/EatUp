@@ -1,7 +1,7 @@
 "use strict";
 /* Trial logic HTML assumptions: 
 The img element:
-  id = "sample"
+  id = configurable
   class = "sample"
   While an image is loading, it (temporarily) has class "loading". 
   When the image has been scored, the score name (e.g. "ant") is added to the class list.
