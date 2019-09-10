@@ -42,11 +42,22 @@
     </table>
 
     <p>Every row in the table below should have an image in the right column. All images should have the same size.</p>
-    
-    <table id="imagesTable">
-      <tr><th>Values</th><th>Image</th></tr>
-    </table>
-    
+
+    <p>Summary of photos:</p>
+    <p>
+      <table>
+        <tr><th class="h">Number of photos</th><td id="numphotos"></td></tr>
+        <tr><th class="h">Number of mimics</th><td id="nummimics"></td></tr>
+        <tr><th class="h">Number of ants</th><td id="numants"></td></tr>
+        <tr><th class="h">Number of non-mimics</th><td id="numnonmimics"></td></tr>
+      </table>
+    </p>
+
+    <p>
+      <table id="imagesTable">
+        <tr><th>Values</th><th>Image</th></tr>
+      </table>
+    </p>
 
     <script>
       document.getElementById("CSV").innerText = PHOTOS_INFO_URL;
@@ -83,8 +94,14 @@
           for (var i = 0; i < data.length; i++) {
               addPhotoRow(i, data[i], tableRef);
           }
-      }
 
+          // Fill in summary details
+          document.getElementById("numphotos").innerText = data.length;
+          document.getElementById("nummimics").innerText = data.filter(p => p.isMimic).length;
+          document.getElementById("numants").innerText = data.filter(p => p.family == "Formicidae").length;
+          document.getElementById("numnonmimics").innerText = data.filter(p => p.family != "Formicidae" && !p.isMimic).length;
+      }
+      
       ReadPhotosCSV(PHOTOS_INFO_URL, showPhotos);
       
     </script>
