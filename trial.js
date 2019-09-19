@@ -57,7 +57,6 @@ class Trial {
         this.timeoutId = null;
         this.timerId;
         this.mistakes = [];
-        this.numBadMistakes = 0
         this.totalScored = 0;
         this.buttonsDisabled = false;
     }
@@ -186,19 +185,10 @@ class Trial {
         setCookie("totalTime", this.logger.totalElapsed);
         setCookie("totalScored", this.totalScored);
         setCookie("errors", JSON.stringify(this.mistakes));
-        setCookie("numBadMistakes", this.numBadMistakes);
         // Save the session ID so we can optionally report user's results if we decide that's a good idea
         setCookie("sessionId", this.logger.sessionId);
         // Browse to the finish page
         window.location = "finish.html"; 
-    }
-    
-    // Returns true if the user's score seems to represent a reasonable choice.
-    isScorePlausible(score) {
-        var kt = this.photos.knownType;
-        //if (!(kt == null || kt == score))
-        //    console.log("ERROR: " + kt + " =? " + score + ", " + (kt == null || kt == score));
-        return (kt == null || kt == score);
     }
     
     // Records the user's classification for the current image.  Animates
@@ -233,8 +223,6 @@ class Trial {
         // Record mistakes
         if (score != this.photos.currentPhoto.correctScore)
             this.mistakes.push(this.photos.url);
-        // Did they get it blatantly wrong?
-        this.numBadMistakes += this.isScorePlausible(score) ? 0 : 1;
         
         // Move on to the next image
         var morePhotos = this.photos.moveToNext;

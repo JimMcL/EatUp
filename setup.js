@@ -59,9 +59,8 @@ function PrepareAndStartTrial(logger, photosPerTrial, photosCsvUrl, photoEleId, 
         var candidatePhotos = data.map(n => {
             n.correctScore = n.family == "Formicidae" ? "ant" : "notAnt";
             n.url = n.webUrl;
-            // Weight everything evenly
-            n.weight = 1;
-            n.known = n.Type;
+            // Ants seem to weight others, so weight them down a little
+            n.weight = n.correctScore == "ant" ? 0.85 : 1;
             return n;
         });
 

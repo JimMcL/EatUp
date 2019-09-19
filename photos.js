@@ -19,8 +19,6 @@ class PhotoSeq {
 
     // Returns the URL of the current photo
     get url() { return this.currentPhoto.url; }
-    // Returns the "known" type of the current photo, either "ant", "notAnt" or null
-    get knownType() { return this.currentPhoto.known; }
 
     // Used internally. Selects the photos to be used in the trial
     // from the list of candidate photos
