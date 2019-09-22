@@ -145,7 +145,7 @@ class Trial {
         // Show progress through list of photos
         var bar = document.getElementById("bar");
         if (bar)
-            bar.style.width = this.photos.percentComplete + "%";
+            bar.style.width = Math.min(100, this.photos.percentComplete) + "%";
     }
 
     showTimeInSecs(secs) {
