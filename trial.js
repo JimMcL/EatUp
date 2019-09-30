@@ -66,7 +66,7 @@ class Trial {
     // timer used to trigger escapes and record user decision times.
     prepare(shortcutKeys) {
         // Display the first photo
-        document.getElementById(this.photoEleId).setAttribute("src", this.photos.url);
+        document.getElementById(this.photoEleId).setAttribute("src", this.photos.currentPhoto.url);
 
         // Setup click event handlers on buttons
         var scoreBtns = document.querySelectorAll(".score");
@@ -199,7 +199,7 @@ class Trial {
         // avoid this, we "disable" the buttons while a photo is loading,
         // and if the user scores during that time, we just ignore it
         if (this.buttonsDisabled) {
-            //console.log("Ignoring score, buttons disabled: " + this.photos.url + ", " + score  + ", " + nMilliSecs);
+            //console.log("Ignoring score, buttons disabled: " + this.photos.currentPhoto.url + ", " + score  + ", " + nMilliSecs);
             return false;
         }
         
@@ -217,12 +217,12 @@ class Trial {
         this.disableButtons();
         
         var nMilliSecs = this.stopTiming();
-        this.logger.logImageScore(this.photos.url, score, nMilliSecs);
+        this.logger.logImageScore(this.photos.currentPhoto.url, score, nMilliSecs);
         
         this.totalScored++;
         // Record mistakes
         if (score != this.photos.currentPhoto.correctScore)
-            this.mistakes.push(this.photos.url);
+            this.mistakes.push(this.photos.currentPhoto.url);
         
         // Move on to the next image
         var morePhotos = this.photos.moveToNext;
@@ -241,7 +241,7 @@ class Trial {
         
         // Load next image
         if (morePhotos) {
-            this.loadPhoto(this.photos.url);
+            this.loadPhoto(this.photos.currentPhoto.url);
         }
         
         return true;
