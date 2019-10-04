@@ -83,13 +83,19 @@
               "<tr><td class='h'>URL</td><td>" + photo.webUrl + "</td></tr>" +
               "<tr><td class='h'>Mimic?</td><td>" + photo.isMimic + "</td></tr>" +
               attrRow("background") + 
+              attrRow("antennalIllusion") + 
               attrRow("photographer") + 
               "</table>" + 
               "</td>" + 
               "<td><img src='" + photo.webUrl + "'></td>";
       }
 
-      function showPhotos(data) {
+function showPhotos(data) {
+    // To just show a subset...
+    // Only show photos with antennal illusion
+    //function isAntenIll(v) { return v.antennalIllusion; }
+    //data = data.filter(isAntenIll);
+    
           var tableRef = document.getElementById('imagesTable').getElementsByTagName('tbody')[0];
           for (var i = 0; i < data.length; i++) {
               addPhotoRow(i, data[i], tableRef);
