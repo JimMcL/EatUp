@@ -6,7 +6,7 @@ Formicidae,Insecta,Rhytidoponera metallica,,,Dorsal,images/149.jpg,FALSE,Artific
 Formicidae,Insecta,Dolichoderus scabridus,,,Lateral right side,images/487.jpg,FALSE,Natural,FALSE,Jim
 Thomisidae,Arachnida,Amyciaea albomaculata,,,Posterior,images/524.jpg,TRUE,Natural,FALSE,Jim
 Corinnidae,Arachnida,Poecilipta sp1,,,Dorsal,images/606.jpg,TRUE,Natural,FALSE,Jim
-Alydidae,Insecta,Riptortus abdominalis,,,Dorsal,images/736.jpg,TRUE,Artifical,FALSE,Jim
+Alydidae,Insecta,Riptortus abdominalis,,,Dorsal,images/736.jpg,TRUE,Artificial,FALSE,Jim
 Alydidae,Insecta,Alydid3 sp1,,,Lateral,images/784.jpg,TRUE,Artificial,FALSE,Jim
 Alydidae,Insecta,Alydid3 sp1,,,Dorsal,images/786.jpg,TRUE,Artificial,FALSE,Jim
 Formicidae,Insecta,Crematogaster sp1,,,Dorsal,images/1262.jpg,FALSE,Artificial,FALSE,Jim
@@ -41,7 +41,7 @@ Salticidae,Arachnida,Myrmarachne erythrocephala,,,Dorsal,images/303.jpg,TRUE,Nat
 Salticidae,Arachnida,Damoetas nitidus,,,Lateral,images/1545.jpg,TRUE,Natural,FALSE,Jim
 Salticidae,Arachnida,Damoetas nitidus,,,Dorsal,images/1547.jpg,TRUE,Natural,TRUE,Jim
 Salticidae,Arachnida,Myrmarachne bicolor,,,Lateral,images/2609.jpg,TRUE,Artificial,FALSE,Jim
-Salticidae,Arachnida,Ligonipes semitectus,,,Dorsal,images/2626.jpg,TRUE,Artifical,FALSE,Jim
+Salticidae,Arachnida,Ligonipes semitectus,,,Dorsal,images/2626.jpg,TRUE,Artificial,FALSE,Jim
 Salticidae,Arachnida,Judalana lutea,,,Dorsal,images/2647.jpg,TRUE,Artificial,FALSE,Jim
 Salticidae,Arachnida,Judalana lutea,,,Anterior,images/2651.jpg,TRUE,Artificial,FALSE,Jim
 Salticidae,Arachnida,Ligonipes semitectus,,,Lateral,images/2751.jpg,TRUE,Artificial,FALSE,Jim
